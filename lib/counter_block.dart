@@ -1,6 +1,8 @@
 import 'package:rxdart/rxdart.dart';
+import 'package:bloc_provider/bloc_provider.dart';
 
-class CounterBloc {
+// bloc interfaceを元にCounterBlocクラスを作成
+class CounterBloc implements Bloc {
   final _countController = BehaviorSubject<int>.seeded(0);
   final _incrementController = PublishSubject<void>();
 

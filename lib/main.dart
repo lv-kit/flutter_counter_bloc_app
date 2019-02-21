@@ -1,24 +1,28 @@
 import 'package:flutter/material.dart';
+
+import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter_counter_block_app/counter_block.dart';
 
-void main() => runApp(App(bloc: CounterBloc()));
+void main() => runApp(
+  BlocProvider<CounterBloc>(
+      child: App(),
+      creator: (context, _bag) => CounterBloc())
+);
 
 class App extends StatelessWidget {
-  final CounterBloc bloc;
-
-  const App({@required this.bloc});
 
   @override
   Widget build(BuildContext context) {
+    final bloc = BlocProvider.of<CounterBloc>(context);
     return MaterialApp(
       home: Scaffold(
-        body: _body(),
-        floatingActionButton: _floatingActionButton(),
+        body: _body(bloc),
+        floatingActionButton: _floatingActionButton(bloc),
       ),
     );
   }
 
-  Widget _body() {
+  Widget _body(bloc) {
     return Center(
       child: StreamBuilder<int>(
         stream: bloc.count,
@@ -31,7 +35,7 @@ class App extends StatelessWidget {
     );
   }
 
-  Widget _floatingActionButton() {
+  Widget _floatingActionButton(bloc) {
     return FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: () => bloc.increment.add(null)
